@@ -79,13 +79,21 @@ namespace SL.Scripts
                 //     _genome.BirthSize / _birthSizeMaxValue, 
                 //     _genome.BirthForce / _birthForceMaxValue);
 
-                float r = (_genome.TimeToBirth - _timeToBirtMinValue) / (_timeToBirtMaxValue - _timeToBirtMinValue);
-                float g = (_genome.BirthSize - _birthSizeMinValue) / (_birthSizeMaxValue - _birthSizeMinValue);
-                float b = (_genome.BirthForce - _birthForceMinValue) / (_birthForceMaxValue - _birthForceMinValue);
-                float[] channels = new[] {r, g, b};
-                float max = Mathf.Max(channels);
+                // float r = (_genome.TimeToBirth - _timeToBirtMinValue) / (_timeToBirtMaxValue - _timeToBirtMinValue);
+                // float g = (_genome.BirthSize - _birthSizeMinValue) / (_birthSizeMaxValue - _birthSizeMinValue);
+                // float b = (_genome.BirthForce - _birthForceMinValue) / (_birthForceMaxValue - _birthForceMinValue);
+                //
                 
-                _body.color = new Color(r/max, g/max, b/max);
+                float r = (_genome.TimeToBirth - Environment.Instance.TimeToBirtMinValue) / (Environment.Instance.TimeToBirtMaxValue - Environment.Instance.TimeToBirtMinValue);
+                float g = (_genome.BirthSize - Environment.Instance.BirthSizeMinValue) / (Environment.Instance.BirthSizeMaxValue - Environment.Instance.BirthSizeMinValue);
+                float b = (_genome.BirthForce - Environment.Instance.BirthForceMinValue) / (Environment.Instance.BirthForceMaxValue - Environment.Instance.BirthForceMinValue);
+
+                
+                // float[] channels = new[] {r, g, b};
+                // float max = Mathf.Max(channels);
+                //
+                // _body.color = new Color(r/max, g/max, b/max);
+                _body.color = new Color(r, g, b);
                 
                 _phase = CellPhase.Life;
                 return;

@@ -86,22 +86,38 @@ public class Stat : MonoBehaviour
                     // ind3 = ind3 < 0 ? 0 : (ind3 > data3.Length - 1 ? data3.Length - 1 : ind3);
                     // data3[ind3] += 1;
                     __data1[id] = item.GetGenome().BirthSize;
-                    __data3[id] = item.GetGenome().BirthForce;
                     __data2[id] = item.GetGenome().TimeToBirth;
+                    __data3[id] = item.GetGenome().BirthForce;
 
                     size += item.GetGenome().BirthSize;
                     force += item.GetGenome().BirthForce;
                     coldDown += item.GetGenome().TimeToBirth;
                     id++;
                 }
+                
+                float min1 = Mathf.Min(__data1);
+                float max1 = Mathf.Max(__data1);
+                float min2 = Mathf.Min(__data2);
+                float max2 = Mathf.Max(__data2);
+                float min3 = Mathf.Min(__data3);
+                float max3 = Mathf.Max(__data3);
+
+                Environment.Instance.BirthSizeMinValue = min1;
+                Environment.Instance.BirthSizeMaxValue = max1;
+                
+                Environment.Instance.TimeToBirtMinValue = min2;
+                Environment.Instance.TimeToBirtMaxValue = max2;
+                
+                Environment.Instance.BirthForceMinValue = min3;
+                Environment.Instance.BirthForceMaxValue = max3;
 
                 // _chart.ApplyData(data);
                 // _chart2.ApplyData(data2);
                 // _chart3.ApplyData(data3);
 
-                _chart.ApplyData(__data1);
-                _chart2.ApplyData(__data2);
-                _chart3.ApplyData(__data3);
+                _chart.ApplyData(__data1, min1, max1);
+                _chart2.ApplyData(__data2, min2, max2);
+                _chart3.ApplyData(__data3, min3, max3);
 
                 float total = _list.Length;
                 _total.text = total.ToString();

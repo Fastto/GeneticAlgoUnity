@@ -76,12 +76,9 @@ public class Chart : MonoBehaviour
     //     }
     // }
 
-    public void ApplyData(float[] data)
+    public void ApplyData(float[] data, float min, float max)
     {
         if (data.Length == 0) return;
-        
-        float min = Mathf.Min(data);
-        float max = Mathf.Max(data);
 
         if ((max - min) < max / _columnNum)
         {

@@ -13,6 +13,14 @@ public class Environment : Singleton<Environment>
     [SerializeField] private List<GameObject> _sprites;
     [SerializeField] private List<Image> _images;
 
+    public float TimeToBirtMinValue { get; set; } = .1f; //for coloring, R channel
+    public float BirthSizeMinValue { get; set; } = 80f; //for coloring, G channel
+    public float BirthForceMinValue { get; set; } = 25f;//for coloring, B channel
+        
+    public float TimeToBirtMaxValue { get; set; } = .6f; //for coloring, R channel
+    public float BirthSizeMaxValue { get; set; } = 120f; //for coloring, G channel
+    public float BirthForceMaxValue { get; set; } = 40f; //for coloring, B channel
+    
     private void Start()
     {
         SetEnvironment(1);
