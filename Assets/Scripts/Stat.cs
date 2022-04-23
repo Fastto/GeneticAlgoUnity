@@ -58,54 +58,65 @@ public class Stat : MonoBehaviour
     {
         while (true)
         {
-            int[] data = new int[20];
-            int[] data2 = new int[20];
-            int[] data3 = new int[20];      
+            // int[] data = new int[20];
+            // int[] data2 = new int[20];
+            // int[] data3 = new int[20];
             
-            int[] data = new int[20];
-            int[] data2 = new int[20];
-            int[] data3 = new int[20];
-            
+
             Cell[] _list = FindObjectsOfType<Cell>();
-
-            float size = 0, force = 0, coldDown = 0;
-            
-            foreach (var item in _list)
+            if (_list.Length > 0)
             {
-                int ind = Mathf.RoundToInt(item.GetGenome().BirthSize * .1f);
-                ind = ind < 0 ? 0 : (ind > data.Length - 1 ? data.Length - 1 : ind);
-                data[ind] += 1;
-                
-                int ind2 = Mathf.RoundToInt(item.GetGenome().TimeToBirth * 20);
-                ind2 = ind2 < 0 ? 0 : (ind2 > data2.Length - 1 ? data2.Length - 1 : ind2);
-                data2[ind2] += 1;
-                
-                int ind3 = Mathf.RoundToInt(item.GetGenome().BirthForce * .25f);
-                ind3 = ind3 < 0 ? 0 : (ind3 > data3.Length - 1 ? data3.Length - 1 : ind3);
-                data3[ind3] += 1;
+                float[] __data1 = new float[_list.Length];
+                float[] __data2 = new float[_list.Length];
+                float[] __data3 = new float[_list.Length];
 
-                size += item.GetGenome().BirthSize;
-                force += item.GetGenome().BirthForce;
-                coldDown += item.GetGenome().TimeToBirth;
+                float size = 0, force = 0, coldDown = 0;
+                int id = 0;
+                foreach (var item in _list)
+                {
+                    // int ind = Mathf.RoundToInt(item.GetGenome().BirthSize * .1f);
+                    // ind = ind < 0 ? 0 : (ind > data.Length - 1 ? data.Length - 1 : ind);
+                    // data[ind] += 1;
+                    //
+                    // int ind2 = Mathf.RoundToInt(item.GetGenome().TimeToBirth * 20);
+                    // ind2 = ind2 < 0 ? 0 : (ind2 > data2.Length - 1 ? data2.Length - 1 : ind2);
+                    // data2[ind2] += 1;
+                    //
+                    // int ind3 = Mathf.RoundToInt(item.GetGenome().BirthForce * .25f);
+                    // ind3 = ind3 < 0 ? 0 : (ind3 > data3.Length - 1 ? data3.Length - 1 : ind3);
+                    // data3[ind3] += 1;
+                    __data1[id] = item.GetGenome().BirthSize;
+                    __data3[id] = item.GetGenome().BirthForce;
+                    __data2[id] = item.GetGenome().TimeToBirth;
+
+                    size += item.GetGenome().BirthSize;
+                    force += item.GetGenome().BirthForce;
+                    coldDown += item.GetGenome().TimeToBirth;
+                    id++;
+                }
+
+                // _chart.ApplyData(data);
+                // _chart2.ApplyData(data2);
+                // _chart3.ApplyData(data3);
+
+                _chart.ApplyData(__data1);
+                _chart2.ApplyData(__data2);
+                _chart3.ApplyData(__data3);
+
+                float total = _list.Length;
+                _total.text = total.ToString();
+                _size.text = total > 0 ? (size / total).ToString() : "0";
+                _force.text = total > 0 ? (force / total).ToString() : "0";
+                _coldDown.text = total > 0 ? (coldDown / total).ToString() : "0";
+
+                _texture2D.SetPixel(_graphX, (int) (total / 4f), new Color(1, 1, 1));
+                _texture2D.SetPixel(_graphX, (int) ((size / (float) total) * 4f) + 120, Color.green);
+                _texture2D.SetPixel(_graphX, (int) ((force / (float) total) * 4f) - 30, Color.blue);
+                _texture2D.SetPixel(_graphX, (int) ((coldDown / (float) total) * 500f) - 510, Color.red);
+                _graphX++;
+                _texture2D.Apply();
             }
 
-            _chart.ApplyData(data);
-            _chart2.ApplyData(data2);
-            _chart3.ApplyData(data3);
-
-            float total = _list.Length;
-            _total.text = total.ToString();
-            _size.text = total > 0 ? (size/total).ToString() : "0";
-            _force.text = total > 0 ? (force/total).ToString() : "0";
-            _coldDown.text = total > 0 ? (coldDown/total).ToString() : "0";
-
-            _texture2D.SetPixel(_graphX, (int)(total/4f), new Color(1,1,1));
-            _texture2D.SetPixel(_graphX, (int)((size/(float)total) * 4f) + 120, Color.green);
-            _texture2D.SetPixel(_graphX, (int)((force/(float)total) * 4f) - 30, Color.blue);
-            _texture2D.SetPixel(_graphX, (int)((coldDown/(float)total) * 500f) - 510, Color.red);
-            _graphX++;
-            _texture2D.Apply();
-            
             yield return new WaitForSeconds(1);
         }
     }
