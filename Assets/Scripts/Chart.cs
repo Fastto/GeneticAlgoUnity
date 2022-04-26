@@ -80,7 +80,7 @@ public class Chart : MonoBehaviour
     {
         if (data.Length == 0) return;
 
-        if ((max - min) < max / _columnNum)
+        if ((max - min) < max / (_columnNum * 4))
         {
             min = min - (max / _columnNum);
             max = max + (max / _columnNum);

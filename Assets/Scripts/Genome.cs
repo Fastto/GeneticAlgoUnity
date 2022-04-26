@@ -37,9 +37,9 @@ namespace SL.Scripts
         {
             // if (Random.value > .5f)
             // {
-                BirthSize += (Random.value > .5f) ? Random.Range(-1f, 1f) : 0;
-                TimeToBirth += (Random.value > .5f) ? Random.Range(-.01f, .01f) : 0;
-                BirthForce += (Random.value > .5f) ? Random.Range(-.5f, .5f) : 0;
+                BirthSize += (Random.value > .5f) ? Random.Range(-.5f, .5f) : 0;
+                TimeToBirth += (Random.value > .5f) ? Random.Range(-.02f, .02f) : 0;
+                BirthForce += (Random.value > .5f) ? Random.Range(-.15f, .15f) : 0;
 
                 if (BirthSize < 20) BirthSize = 20;
                 if (TimeToBirth < .1f) TimeToBirth = .1f;
