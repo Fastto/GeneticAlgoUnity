@@ -197,7 +197,7 @@ MonoBehaviour:
   m_SpriteRenderer: {fileID: 1303395379}
   m_Image: {fileID: 296003805}
   m_Options:
-  - {fileID: 21300000, guid: d2f1340a4db9e481c8e90a8bc70bca1e, type: 3}
+  - {fileID: 21300000, guid: 908e6770605d94fa5b87ca9b819993ae, type: 3}
 --- !u!1 &296003803
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,15 +402,18 @@ MonoBehaviour:
   m_MutationRangeRate: 0.01
   m_LightingAbsorptionPerSecond: 200
   m_LightingGeneEnergyUtilisationRate: 25
+  m_ParasitismRate: 20
+  m_ParasitismDistance: 3
+  m_ParasitismTimeRecalc: 0.5
   m_CellBirthEnergy: 100
   m_CellDevidingEnergy: 300
   m_CellBirthForce: 10
   m_CellDeathEnergy: 50
   m_CellLifeTime: 15
   m_CellSizeFine: 0.15
-  m_NeigbourMaxDistance: 3
+  m_NeigbourMaxDistance: 2.2
   m_NeigbourTimeRecalc: 0.5
-  m_NeighbourLightingFine: 0.05
+  m_NeighbourLightingFine: 0.4
 --- !u!4 &358683417
 Transform:
   m_ObjectHideFlags: 0

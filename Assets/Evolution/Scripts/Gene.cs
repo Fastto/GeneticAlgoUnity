@@ -12,6 +12,11 @@ namespace Evolution.Scripts
         {
             return new Gene(Random.value);
         }
+        
+        static public Gene GetZero()
+        {
+            return new Gene(0f);
+        }
 
         public Gene(float value = 0f)
         {
@@ -21,7 +26,8 @@ namespace Evolution.Scripts
         public enum Genes
         {
             VOID,
-            PHOTOSYNTESIS
+            PHOTOSYNTESIS,
+            PARASITISM
         }
         
         public Gene Clone()

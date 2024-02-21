@@ -19,6 +19,11 @@ namespace Evolution.Scripts
         public float m_LightingAbsorptionPerSecond;
         public float m_LightingGeneEnergyUtilisationRate;
 
+        [Space] [Header("PARASITISM")] 
+        public float m_ParasitismRate;
+        public float m_ParasitismDistance;
+        public float m_ParasitismTimeRecalc;
+        
         [Space] [Header("Cell Parameters")] 
         public float m_CellBirthEnergy; // 100f
         public float m_CellDevidingEnergy; // 300f

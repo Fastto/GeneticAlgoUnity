@@ -23,6 +23,10 @@ namespace Evolution.Scripts
         protected void Start()
         {
             m_RigidBody = GetComponent<Rigidbody2D>();
+        }
+
+        private void OnEnable()
+        {
             StartCoroutine(LifeLoop());
         }
 
@@ -44,8 +48,10 @@ namespace Evolution.Scripts
                 m_DNA = DNA.GetRandom();
             }
 
-            var rednblue = 1f - m_DNA.m_Genes[Gene.Genes.PHOTOSYNTESIS].m_Value;
-            m_Body.color = new Color(rednblue, 1f, rednblue);
+            var gr = m_DNA.m_Genes[Gene.Genes.PHOTOSYNTESIS].m_Value;
+            var rd = m_DNA.m_Genes[Gene.Genes.PARASITISM].m_Value;
+            var bl = 0f;
+            m_Body.color = new Color(rd, gr, bl);
             
             Jump();
             yield return null;
@@ -58,6 +64,8 @@ namespace Evolution.Scripts
             {
                 m_Energy += GetLightingEnergyIncome();
                 m_Energy -= GetLightingEnergyOutcome();
+
+                m_Energy += GetStolenEnergy();
 
                 m_Energy -= GetSizeEnergyFine();
                 
@@ -90,7 +98,7 @@ namespace Evolution.Scripts
 
         protected float GetLightingEnergyIncome()
         {
-            float neighbourFine = 1f - CellFactory.Instance.GetNeighbours(this) *
+            float neighbourFine = 1f - CellFactory.Instance.GetLightingNeighboursCount(this) *
                                   EvolutionHyperParameters.Instance.m_NeighbourLightingFine;
             return Time.deltaTime 
                    * EvolutionHyperParameters.Instance.m_LightingAbsorptionPerSecond 
@@ -111,6 +119,25 @@ namespace Evolution.Scripts
             return Time.deltaTime
                    * m_Energy
                    * EvolutionHyperParameters.Instance.m_CellSizeFine;
+        }
+
+        protected float GetStolenEnergy()
+        {
+            var stolenEnergy = 0f;
+
+            var neighbours = CellFactory.Instance.GetParasitismNeighbours(this);
+            foreach (var n in neighbours)
+            {
+                if (n.gameObject.activeSelf)
+                {
+                    // var delta = m_Energy * EvolutionHyperParameters.Instance.m_ParasitismRate * Time.deltaTime;
+                    var delta = EvolutionHyperParameters.Instance.m_ParasitismRate * Time.deltaTime * m_DNA.m_Genes[Gene.Genes.PARASITISM].m_Value;
+                    stolenEnergy += delta;
+                    n.Steal(delta);
+                }
+            }
+
+            return stolenEnergy;
         }
 
         protected void ApplyEnergy()
@@ -135,6 +162,11 @@ namespace Evolution.Scripts
             var energyReducingK = EvolutionHyperParameters.Instance.m_CellBirthEnergy / m_Energy;
             var jumpForce = EvolutionHyperParameters.Instance.m_CellBirthForce * energyReducingK;
             m_RigidBody.AddForce(transform.right * jumpForce);
+        }
+
+        protected void Steal(float amount)
+        {
+            m_Energy -= amount;
         }
     }
 }

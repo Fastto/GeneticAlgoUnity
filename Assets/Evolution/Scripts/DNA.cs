@@ -13,6 +13,8 @@ namespace Evolution.Scripts
         {
             DNA dna = new DNA();
             dna.m_Genes.Add(Gene.Genes.PHOTOSYNTESIS, Gene.GetRandom());
+            dna.m_Genes.Add(Gene.Genes.PARASITISM, Gene.GetRandom());
+            // dna.m_Genes.Add(Gene.Genes.PARASITISM, Gene.GetZero());
 
             return dna;
         }
@@ -27,6 +29,7 @@ namespace Evolution.Scripts
         {
             var dna = new DNA();
             dna.m_Genes.Add(Gene.Genes.PHOTOSYNTESIS, m_Genes[Gene.Genes.PHOTOSYNTESIS].Clone());
+            dna.m_Genes.Add(Gene.Genes.PARASITISM, m_Genes[Gene.Genes.PARASITISM].Clone());
             
             return dna;
         }
@@ -35,6 +38,7 @@ namespace Evolution.Scripts
         {
             var dna = new DNA();
             dna.m_Genes.Add(Gene.Genes.PHOTOSYNTESIS, m_Genes[Gene.Genes.PHOTOSYNTESIS].Mutate());
+            dna.m_Genes.Add(Gene.Genes.PARASITISM, m_Genes[Gene.Genes.PARASITISM].Mutate());
             
             return dna;
         }
