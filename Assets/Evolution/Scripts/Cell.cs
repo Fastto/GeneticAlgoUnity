@@ -63,6 +63,7 @@ namespace Evolution.Scripts
         protected IEnumerator Death()
         {
             OnDied?.Invoke(this);
+            m_DNA.Deactivate(this);
             gameObject.SetActive(false);
             
             yield return null;

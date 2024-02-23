@@ -47,7 +47,7 @@ namespace Evolution.Scripts
             return MemberwiseClone();
         }
         
-        public void Mutate()
+        public virtual void Mutate()
         {
             if (Random.value < EvolutionHyperParameters.Instance.m_MutationPossibilityRate)
             {

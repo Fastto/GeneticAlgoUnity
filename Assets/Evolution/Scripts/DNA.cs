@@ -18,8 +18,9 @@ namespace Evolution.Scripts
             dna.m_Genes.Add(new AppearanceGene());
             dna.m_Genes.Add(new MovementGene());
             dna.m_Genes.Add(new MetabolismGene());
-            dna.m_Genes.Add(new PhotosyntesisGene().SetRandom());
-            dna.m_Genes.Add(new ParasitismGene().SetRandom());
+            // dna.m_Genes.Add(new PhotosyntesisGene().SetRandom());
+            // dna.m_Genes.Add(new ParasitismGene().SetRandom());
+            dna.m_Genes.Add(new ParasitismPhotosyntesisGene().SetRandom());
             dna.m_Genes.Add(new DivideGene());
             dna.m_Genes.Add(new DeathGene());
 
@@ -34,6 +35,17 @@ namespace Evolution.Scripts
                 cell.OnFrame += g.OnCellFrame;
                 cell.OnDivided += g.OnCellDivided;
                 cell.OnDied += g.OnCellDied;
+            }
+        }
+
+        public void Deactivate(Cell cell)
+        {
+            foreach (var g in m_Genes)
+            {
+                cell.OnBirth -= g.OnCellBirth;
+                cell.OnFrame -= g.OnCellFrame;
+                cell.OnDivided -= g.OnCellDivided;
+                cell.OnDied -= g.OnCellDied;
             }
         }
 
