@@ -398,8 +398,8 @@ MonoBehaviour:
   m_SpawningWifth: 70
   m_SpawningHeight: 50
   m_SpawningNumber: 50
-  m_MutationPossibilityRate: 0.01
-  m_MutationRangeRate: 0.01
+  m_MutationPossibilityRate: 0.1
+  m_MutationRangeRate: 0.05
   m_LightingAbsorptionPerSecond: 200
   m_LightingGeneEnergyUtilisationRate: 25
   m_ParasitismRate: 20

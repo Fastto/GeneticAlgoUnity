@@ -41,8 +41,10 @@ namespace Evolution.Scripts
         {
             var cell = GetNewCell();
             cell.transform.position = parent.transform.position;
-            cell.SetDNA(parent.GetDNA().Mutate());
-            
+            var dna = parent.GetDNA().Clone();
+            dna.Mutate();
+            cell.SetDNA(dna);   
+
             RegisterCell(cell);
         }
 
@@ -57,7 +59,8 @@ namespace Evolution.Scripts
             }
             else
             {
-                return Instantiate(EvolutionHyperParameters.Instance.m_CellPrefab, Vector3.zero, Quaternion.identity).GetComponent<Cell>();
+                return Instantiate(EvolutionHyperParameters.Instance.m_CellPrefab, Vector3.zero, Quaternion.identity)
+                    .GetComponent<Cell>();
             }
         }
 
@@ -66,7 +69,8 @@ namespace Evolution.Scripts
             cell.OnDied += OnCellDied;
             m_ActiveCells.Add(cell);
             m_LightingNeighbours.Add(cell, new KeyValuePair<float, int>(Time.time, CalcLightingNeighboursCount(cell)));
-            m_ParasitismNeighbours.Add(cell, new KeyValuePair<float, List<Cell>>(Time.time, FindParasitismNeighbours(cell)));
+            m_ParasitismNeighbours.Add(cell,
+                new KeyValuePair<float, List<Cell>>(Time.time, FindParasitismNeighbours(cell)));
         }
 
         protected void OnCellDied(Cell cell)
@@ -92,7 +96,7 @@ namespace Evolution.Scripts
 
             return number;
         }
-        
+
         public List<Cell> GetParasitismNeighbours(Cell cell)
         {
             var cellData = m_ParasitismNeighbours[cell];
@@ -123,7 +127,7 @@ namespace Evolution.Scripts
 
             return number;
         }
-        
+
         protected List<Cell> FindParasitismNeighbours(Cell cell)
         {
             List<Cell> neighbours = new List<Cell>();

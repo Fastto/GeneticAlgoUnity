@@ -4,54 +4,57 @@ using Random = UnityEngine.Random;
 namespace Evolution.Scripts
 {
     [Serializable]
-    public class Gene
+    public class Gene : ICloneable
     {
-        public float m_Value;
+        public float m_Value = 0f;
         
-        static public Gene GetRandom()
+        public virtual void OnCellBirth(Cell cell)
         {
-            return new Gene(Random.value);
+            
         }
         
-        static public Gene GetZero()
+        public virtual void OnCellDied(Cell cell)
         {
-            return new Gene(0f);
+            
+        }
+        
+        public virtual void OnCellFrame(Cell cell)
+        {
+            
+        }
+        
+        public virtual void OnCellDivided(Cell cell)
+        {
+            
         }
 
-        public Gene(float value = 0f)
+        public Gene SetRandom()
         {
-            m_Value = value;
+            m_Value = Random.value;
+            return this;
         }
         
-        public enum Genes
+        public Gene SetValue(float val)
         {
-            VOID,
-            PHOTOSYNTESIS,
-            PARASITISM
+            m_Value = val;
+            if (m_Value < 0) m_Value = 0f;
+            if (m_Value > 1) m_Value = 1f;
+            return this;
         }
         
-        public Gene Clone()
+        public object Clone()
         {
-            return new Gene(m_Value);
+            return MemberwiseClone();
         }
-
-        public Gene Mutate()
+        
+        public void Mutate()
         {
             if (Random.value < EvolutionHyperParameters.Instance.m_MutationPossibilityRate)
             {
                 var delta = Random.Range(-EvolutionHyperParameters.Instance.m_MutationRangeRate / 2f,
                     EvolutionHyperParameters.Instance.m_MutationRangeRate / 2f);
-                m_Value += delta;
-                if (m_Value < 0) m_Value = 0f;
-                if (m_Value > 1) m_Value = 1f;
+                SetValue(m_Value + delta);
             }
-            return new Gene(m_Value);
-        }
-
-        public Gene Cross(Gene value)
-        {
-            var val = Random.value > .5 ? value.m_Value : m_Value;
-            return new Gene(val);
         }
     }
 }
