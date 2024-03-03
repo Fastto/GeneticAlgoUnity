@@ -15,6 +15,7 @@ namespace Evolution.Scripts
         [HideInInspector] public float m_Energy;
         [HideInInspector] public DNA m_DNA;
         [HideInInspector] public bool m_IsDead;
+        [HideInInspector] public bool m_IsParasite = false;
 
         public Action<Cell> OnDied;
         public Action<Cell> OnBirth;

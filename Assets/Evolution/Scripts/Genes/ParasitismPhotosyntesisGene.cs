@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Evolution.Scripts.Genes
 {
-    public class ParasitismPhotosyntesisGene : Gene
+    public class ParasitismPhotosyntesisGene : BinaryGene
     {
         public override void OnCellBirth(Cell cell)
         {
@@ -10,10 +10,12 @@ namespace Evolution.Scripts.Genes
             if (m_Value > .5f)
             {
                 color.g = 1;
+                cell.m_IsParasite = false;
             }
             else
             {
                 color.r = 1;
+                cell.m_IsParasite = true;
             }
 
             cell.m_Body.color = color;
@@ -72,17 +74,6 @@ namespace Evolution.Scripts.Genes
             }
 
             return stolenEnergy;
-        }
-        
-        public override void Mutate()
-        {
-            if (Random.value < EvolutionHyperParameters.Instance.m_MutationPossibilityRate)
-            {
-                var status = m_Value > .5f ? true : false;
-                status = !status;
-                
-                SetValue(status ? 1f : 0f);
-            }
         }
     }
 }

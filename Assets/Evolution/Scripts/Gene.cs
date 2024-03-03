@@ -34,7 +34,7 @@ namespace Evolution.Scripts
             return this;
         }
         
-        public Gene SetValue(float val)
+        public virtual Gene SetValue(float val)
         {
             m_Value = val;
             if (m_Value < 0) m_Value = 0f;

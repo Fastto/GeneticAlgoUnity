@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -79,6 +80,13 @@ namespace Evolution.Scripts
             m_ActiveCells.Remove(cell);
             m_LightingNeighbours.Remove(cell);
             m_ParasitismNeighbours.Remove(cell);
+
+            StartCoroutine(AddToUnactive(cell));
+        }
+
+        private IEnumerator AddToUnactive(Cell cell)
+        {
+            yield return null;
             m_UnactiveCells.Add(cell);
         }
 
@@ -134,7 +142,7 @@ namespace Evolution.Scripts
 
             foreach (var _cell in m_ActiveCells)
             {
-                if (_cell != cell)
+                if (_cell != cell && !_cell.m_IsParasite)
                 {
                     var dist = (_cell.transform.position - cell.transform.position).magnitude;
                     if (dist < EvolutionHyperParameters.Instance.m_ParasitismDistance)

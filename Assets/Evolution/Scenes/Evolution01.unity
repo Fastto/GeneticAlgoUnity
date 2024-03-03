@@ -404,12 +404,12 @@ MonoBehaviour:
   m_CellDeathEnergy: 50
   m_CellLifeTime: 15
   m_CellSizeFine: 0.15
-  m_MutationPossibilityRate: 0.1
+  m_MutationPossibilityRate: 0
   m_MutationRangeRate: 0.05
   m_LightingAbsorptionPerSecond: 200
   m_LightingGeneEnergyUtilisationRate: 25
   m_NeigbourMaxDistance: 2.2
-  m_NeighbourLightingFine: 0.4
+  m_NeighbourLightingFine: 0.1
   m_NeigbourTimeRecalc: 0.5
   m_ParasitismRate: 20
   m_ParasitismDistance: 5

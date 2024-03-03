@@ -20,7 +20,7 @@ namespace Evolution.Scripts
             dna.m_Genes.Add(new MetabolismGene());
             // dna.m_Genes.Add(new PhotosyntesisGene().SetRandom());
             // dna.m_Genes.Add(new ParasitismGene().SetRandom());
-            dna.m_Genes.Add(new ParasitismPhotosyntesisGene().SetRandom());
+            dna.m_Genes.Add(new ParasitismPhotosyntesisGene().SetValue(1f));
             dna.m_Genes.Add(new DivideGene());
             dna.m_Genes.Add(new DeathGene());
 
