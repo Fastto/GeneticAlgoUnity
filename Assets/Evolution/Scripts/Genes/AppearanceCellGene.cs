@@ -1,8 +1,10 @@
+using Common.Scripts;
+using Common.Scripts.CellParams;
 using UnityEngine;
 
 namespace Evolution.Scripts.Genes
 {
-    public class AppearanceGene : Gene
+    public class AppearanceCellGene : CellGene
     {
         public override void OnCellBirth(Cell cell)
         {   
@@ -13,9 +15,9 @@ namespace Evolution.Scripts.Genes
         {
         }
 
-        public override void OnCellFrame(Cell cell)
+        public override void OnCellRareFrame(Cell cell)
         {
-            var scale = (Mathf.Sqrt((cell.m_Energy / 100f) / Mathf.PI) * 2f)* 1f;
+            var scale = (Mathf.Sqrt((cell.m_FloatParams[CellFloatParams.Energy] / 100f) / Mathf.PI) * 2f)* 1f;
             cell.transform.localScale = new Vector3(scale, scale, 1);
         }
 

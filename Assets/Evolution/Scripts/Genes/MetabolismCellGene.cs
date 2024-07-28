@@ -1,8 +1,10 @@
+using Common.Scripts;
+using Common.Scripts.CellParams;
 using UnityEngine;
 
 namespace Evolution.Scripts.Genes
 {
-    public class MetabolismGene : Gene
+    public class MetabolismCellGene : CellGene
     {
         public override void OnCellBirth(Cell cell)
         {   
@@ -13,9 +15,9 @@ namespace Evolution.Scripts.Genes
         {
         }
 
-        public override void OnCellFrame(Cell cell)
+        public override void OnCellRareFrame(Cell cell)
         {
-            cell.m_Energy -= GetSizeEnergyFine(cell);
+            cell.m_FloatParams[CellFloatParams.Energy] -= GetSizeEnergyFine(cell);
         }
 
         public override void OnCellDivided(Cell cell)
@@ -25,8 +27,8 @@ namespace Evolution.Scripts.Genes
 
         protected float GetSizeEnergyFine(Cell cell)
         {
-            return Time.deltaTime
-                   * cell.m_Energy
+            return GetRareFrameTime()
+                   * cell.m_FloatParams[CellFloatParams.Energy]
                    * EvolutionHyperParameters.Instance.m_CellSizeFine;
         }
         

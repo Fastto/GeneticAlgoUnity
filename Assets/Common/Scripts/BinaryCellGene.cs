@@ -1,12 +1,13 @@
 using System;
+using Evolution.Scripts;
 using Random = UnityEngine.Random;
 
-namespace Evolution.Scripts
+namespace Common.Scripts
 {
     [Serializable]
-    public class BinaryGene : Gene
+    public class BinaryCellGene : CellGene
     {
-        public override Gene SetValue(float val)
+        public override CellGene SetValue(float val)
         {
             m_Value = val > .5 ? 1f: 0f;
             return this;
@@ -14,7 +15,7 @@ namespace Evolution.Scripts
         
         public override void Mutate()
         {
-            if (Random.value < EvolutionHyperParameters.Instance.m_MutationPossibilityRate)
+            if (Random.value < EvolutionCommonHyperParameters.Instance.m_MutationPossibilityRate)
             {
                 var status = m_Value > .5f;
                 status = !status;

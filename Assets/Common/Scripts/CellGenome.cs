@@ -1,31 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Evolution.Scripts.Genes;
-using UnityEngine;
-using Random = UnityEngine.Random;
+using Evolution.Scripts;
 
-namespace Evolution.Scripts
+namespace Common.Scripts
 {
     [Serializable]
-    public class DNA
+    public class CellGenome
     {
-        public List<Gene> m_Genes = new List<Gene>();
-        
-        static public DNA GetRandom()
-        {
-            DNA dna = new DNA();
-            dna.m_Genes.Add(new BirthGene());
-            dna.m_Genes.Add(new AppearanceGene());
-            dna.m_Genes.Add(new MovementGene());
-            dna.m_Genes.Add(new MetabolismGene());
-            // dna.m_Genes.Add(new PhotosyntesisGene().SetRandom());
-            // dna.m_Genes.Add(new ParasitismGene().SetRandom());
-            dna.m_Genes.Add(new ParasitismPhotosyntesisGene().SetValue(1f));
-            dna.m_Genes.Add(new DivideGene());
-            dna.m_Genes.Add(new DeathGene());
-
-            return dna;
-        }
+        public List<CellGene> m_Genes = new List<CellGene>();
 
         public void Activate(Cell cell)
         {
@@ -33,6 +15,8 @@ namespace Evolution.Scripts
             {
                 cell.OnBirth += g.OnCellBirth;
                 cell.OnFrame += g.OnCellFrame;
+                cell.OnFixedFrame += g.OnCellFixedFrame;
+                cell.OnRareFrame += g.OnCellRareFrame;
                 cell.OnDivided += g.OnCellDivided;
                 cell.OnDied += g.OnCellDied;
             }
@@ -44,17 +28,19 @@ namespace Evolution.Scripts
             {
                 cell.OnBirth -= g.OnCellBirth;
                 cell.OnFrame -= g.OnCellFrame;
+                cell.OnFixedFrame -= g.OnCellFixedFrame;
+                cell.OnRareFrame -= g.OnCellRareFrame;
                 cell.OnDivided -= g.OnCellDivided;
                 cell.OnDied -= g.OnCellDied;
             }
         }
 
-        public DNA Clone()
+        public CellGenome Clone()
         {
-            var dna = new DNA();
+            var dna = new CellGenome();
             foreach (var g in m_Genes)
             {
-                dna.m_Genes.Add(g.Clone() as Gene);
+                dna.m_Genes.Add(g.Clone() as CellGene);
             }
 
             return dna;

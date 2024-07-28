@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 5015142004665419405}
   - component: {fileID: 8698161311744706983}
   - component: {fileID: 1056606238071303229}
-  - component: {fileID: -2514323820331523723}
+  - component: {fileID: 3167149996513440870}
   m_Layer: 6
   m_Name: Cell
   m_TagString: Cell
@@ -568,7 +568,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-2514323820331523723
+--- !u!114 &3167149996513440870
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -577,10 +577,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3270943439100700554}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9caf0f6d920d4eaaafd9c40aab17c0e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 5efd213b5053465494087a0a2482dd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_RigidBody: {fileID: 0}
   m_Body: {fileID: 2660630127580933825}
+  m_CellGenome:
+    m_Genes: []
+  m_IsDead: 0
 --- !u!1 &3913184888177686310
 GameObject:
   m_ObjectHideFlags: 0

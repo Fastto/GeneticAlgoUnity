@@ -1,8 +1,10 @@
+using Common.Scripts;
+using Common.Scripts.CellParams;
 using UnityEngine;
 
 namespace Evolution.Scripts.Genes
 {
-    public class ParasitismGene : Gene
+    public class ParasitismCellGene : CellGene
     {
         public override void OnCellBirth(Cell cell)
         {
@@ -15,10 +17,10 @@ namespace Evolution.Scripts.Genes
         {
         }
 
-        public override void OnCellFrame(Cell cell)
+        public override void OnCellRareFrame(Cell cell)
         {
-            cell.m_Energy += GetReward(cell);
-            cell.m_Energy -= GetPenalty(cell);
+            cell.m_FloatParams[CellFloatParams.Energy] += GetReward(cell);
+            cell.m_FloatParams[CellFloatParams.Energy] -= GetPenalty(cell);
         }
         
         protected float GetReward(Cell cell)
@@ -31,9 +33,11 @@ namespace Evolution.Scripts.Genes
                 if (n.gameObject.activeSelf)
                 {
                     // var delta = m_Energy * EvolutionHyperParameters.Instance.m_ParasitismRate * Time.deltaTime;
-                    var delta = EvolutionHyperParameters.Instance.m_ParasitismRate * Time.deltaTime * m_Value;
+                    var delta = EvolutionHyperParameters.Instance.m_ParasitismRate 
+                                * GetRareFrameTime()
+                                * m_Value;
                     stolenEnergy += delta;
-                    n.m_Energy -= delta;
+                    n.m_FloatParams[CellFloatParams.Energy] -= delta;
                 }
             }
 

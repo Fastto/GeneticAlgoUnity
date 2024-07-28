@@ -1,14 +1,13 @@
+using Common.Scripts;
 using UnityEngine;
 
 namespace Evolution.Scripts.Genes
 {
-    public class BirthGene : Gene
+    public class EmptyCellGene : CellGene
     {
         public override void OnCellBirth(Cell cell)
         {   
-            cell.m_BirthTime = Time.time;
-            cell.m_Energy = EvolutionHyperParameters.Instance.m_CellBirthEnergy;
-            cell.m_IsDead = false;
+
         }
 
         public override void OnCellDied(Cell cell)

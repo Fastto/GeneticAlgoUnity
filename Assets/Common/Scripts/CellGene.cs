@@ -1,10 +1,11 @@
 using System;
+using Evolution.Scripts;
 using Random = UnityEngine.Random;
 
-namespace Evolution.Scripts
+namespace Common.Scripts
 {
     [Serializable]
-    public class Gene : ICloneable
+    public class CellGene : ICloneable
     {
         public float m_Value = 0f;
         
@@ -23,18 +24,28 @@ namespace Evolution.Scripts
             
         }
         
+        public virtual void OnCellFixedFrame(Cell cell)
+        {
+            
+        }  
+        
+        public virtual void OnCellRareFrame(Cell cell)
+        {
+            
+        }
+        
         public virtual void OnCellDivided(Cell cell)
         {
             
         }
 
-        public Gene SetRandom()
+        public CellGene SetRandom()
         {
             m_Value = Random.value;
             return this;
         }
         
-        public virtual Gene SetValue(float val)
+        public virtual CellGene SetValue(float val)
         {
             m_Value = val;
             if (m_Value < 0) m_Value = 0f;
@@ -49,12 +60,17 @@ namespace Evolution.Scripts
         
         public virtual void Mutate()
         {
-            if (Random.value < EvolutionHyperParameters.Instance.m_MutationPossibilityRate)
+            if (Random.value < EvolutionCommonHyperParameters.Instance.m_MutationPossibilityRate)
             {
-                var delta = Random.Range(-EvolutionHyperParameters.Instance.m_MutationRangeRate / 2f,
-                    EvolutionHyperParameters.Instance.m_MutationRangeRate / 2f);
+                var delta = Random.Range(-EvolutionCommonHyperParameters.Instance.m_MutationRangeRate / 2f,
+                    EvolutionCommonHyperParameters.Instance.m_MutationRangeRate / 2f);
                 SetValue(m_Value + delta);
             }
+        }
+
+        public float GetRareFrameTime()
+        {
+            return EvolutionCommonHyperParameters.Instance.m_RareFramePeriod;
         }
     }
 }

@@ -1,8 +1,10 @@
+using Common.Scripts;
+using Common.Scripts.CellParams;
 using UnityEngine;
 
 namespace Evolution.Scripts.Genes
 {
-    public class DeathGene : Gene
+    public class DeathCellGene : CellGene
     {
         public override void OnCellBirth(Cell cell)
         {   
@@ -15,12 +17,12 @@ namespace Evolution.Scripts.Genes
 
         public override void OnCellFrame(Cell cell)
         {
-            if(Time.time - cell.m_BirthTime > EvolutionHyperParameters.Instance.m_CellLifeTime)
+            if(Time.time - cell.m_FloatParams[CellFloatParams.BirthTime] > EvolutionHyperParameters.Instance.m_CellLifeTime)
             {
                 cell.m_IsDead = true;
             }
 
-            if (cell.m_Energy < EvolutionHyperParameters.Instance.m_CellDeathEnergy)
+            if (cell.m_FloatParams[CellFloatParams.Energy] < EvolutionHyperParameters.Instance.m_CellDeathEnergy)
             {
                 cell.m_IsDead = true;
             }

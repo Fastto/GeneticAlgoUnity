@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Common.Scripts;
+using Common.Scripts.CellParams;
+using Evolution.Scripts.Genes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -32,9 +35,8 @@ namespace Evolution.Scripts
                         EvolutionHyperParameters.Instance.m_SpawningWifth / 2f),
                     Random.Range(-EvolutionHyperParameters.Instance.m_SpawningHeight / 2f,
                         EvolutionHyperParameters.Instance.m_SpawningHeight / 2f), 0);
-                cell.SetDNA(DNA.GetRandom());
-
-                RegisterCell(cell);
+                cell.SetCellGenome(GetRandomGenome());
+                cell.OnBirth += OnCellBirth;
             }
         }
 
@@ -42,11 +44,10 @@ namespace Evolution.Scripts
         {
             var cell = GetNewCell();
             cell.transform.position = parent.transform.position;
-            var dna = parent.GetDNA().Clone();
+            var dna = parent.GetCellGenome().Clone();
             dna.Mutate();
-            cell.SetDNA(dna);   
-
-            RegisterCell(cell);
+            cell.SetCellGenome(dna);
+            cell.OnBirth += OnCellBirth;
         }
 
         protected Cell GetNewCell()
@@ -60,20 +61,23 @@ namespace Evolution.Scripts
             }
             else
             {
-                return Instantiate(EvolutionHyperParameters.Instance.m_CellPrefab, Vector3.zero, Quaternion.identity)
+                var newCell = Instantiate(EvolutionHyperParameters.Instance.m_CellPrefab, Vector3.zero, Quaternion.identity)
                     .GetComponent<Cell>();
+                return newCell;
             }
         }
-
-        protected void RegisterCell(Cell cell)
+        
+        protected void OnCellBirth(Cell cell)
         {
+            cell.OnBirth -= OnCellBirth;
+            
             cell.OnDied += OnCellDied;
             m_ActiveCells.Add(cell);
             m_LightingNeighbours.Add(cell, new KeyValuePair<float, int>(Time.time, CalcLightingNeighboursCount(cell)));
             m_ParasitismNeighbours.Add(cell,
                 new KeyValuePair<float, List<Cell>>(Time.time, FindParasitismNeighbours(cell)));
         }
-
+        
         protected void OnCellDied(Cell cell)
         {
             cell.OnDied -= OnCellDied;
@@ -139,10 +143,9 @@ namespace Evolution.Scripts
         protected List<Cell> FindParasitismNeighbours(Cell cell)
         {
             List<Cell> neighbours = new List<Cell>();
-
             foreach (var _cell in m_ActiveCells)
             {
-                if (_cell != cell && !_cell.m_IsParasite)
+                if (_cell != cell && !_cell.m_BoolParams[CellBoolParams.IsParasite])
                 {
                     var dist = (_cell.transform.position - cell.transform.position).magnitude;
                     if (dist < EvolutionHyperParameters.Instance.m_ParasitismDistance)
@@ -153,6 +156,22 @@ namespace Evolution.Scripts
             }
 
             return neighbours;
+        }
+        
+        public CellGenome GetRandomGenome()
+        {
+            CellGenome cellGenome = new CellGenome();
+            cellGenome.m_Genes.Add(new BirthCellGene());
+            cellGenome.m_Genes.Add(new AppearanceCellGene());
+            cellGenome.m_Genes.Add(new MovementCellGene());
+            cellGenome.m_Genes.Add(new MetabolismCellGene());
+            // m_CellGenome.m_Genes.Add(new PhotosynthesisCellGene().SetRandom());
+            // m_CellGenome.m_Genes.Add(new ParasitismCellGene().SetRandom());
+            cellGenome.m_Genes.Add(new ParasitismPhotosynthesisCellGene().SetValue(1f));
+            cellGenome.m_Genes.Add(new DivideCellGene());
+            cellGenome.m_Genes.Add(new DeathCellGene());
+
+            return cellGenome;
         }
     }
 }

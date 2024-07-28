@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Evolution.Scripts
+namespace Common.Scripts
 {
     /// <summary>
     /// Inherit from this base class to create a singleton.

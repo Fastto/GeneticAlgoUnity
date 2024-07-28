@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Evolution.Scripts
+namespace Common.Scripts
 {
     public class SpriteFillsScreen : MonoBehaviour
     {

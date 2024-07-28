@@ -1,8 +1,10 @@
+using Common.Scripts;
+using Common.Scripts.CellParams;
 using UnityEngine;
 
 namespace Evolution.Scripts.Genes
 {
-    public class PhotosyntesisGene : Gene
+    public class PhotosynthesisCellGene : CellGene
     {
         public override void OnCellBirth(Cell cell)
         {
@@ -15,10 +17,10 @@ namespace Evolution.Scripts.Genes
         {
         }
 
-        public override void OnCellFrame(Cell cell)
+        public override void OnCellRareFrame(Cell cell)
         {
-            cell.m_Energy += GetReward(cell);
-            cell.m_Energy -= GetPenalty(cell);
+            cell.m_FloatParams[CellFloatParams.Energy] += GetReward(cell);
+            cell.m_FloatParams[CellFloatParams.Energy] -= GetPenalty(cell);
         }
 
         /**
@@ -30,7 +32,7 @@ namespace Evolution.Scripts.Genes
                 EvolutionHyperParameters.Instance.m_NeighbourLightingFine;
             
             return m_Value
-                   * Time.deltaTime
+                   * GetRareFrameTime()
                    * EvolutionHyperParameters.Instance.m_LightingAbsorptionPerSecond
                    * LightingManager.Instance.GetIntensivityForPoint(cell.transform.position)
                    * neighbourFine;
@@ -39,7 +41,7 @@ namespace Evolution.Scripts.Genes
         protected float GetPenalty(Cell cell)
         {
             return m_Value
-                   * Time.deltaTime
+                   * GetRareFrameTime()
                    * EvolutionHyperParameters.Instance.m_LightingGeneEnergyUtilisationRate;
         }
     }
